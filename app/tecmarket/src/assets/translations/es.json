@@ -1,0 +1,102 @@
+{
+  "language": "ES",
+  "login": {
+    "label": {
+      "email": "Correo Electrónico ",
+      "password": "Contraseña"
+    },
+    "placeholders": {
+      "email": "Correo",
+      "password": "Contraseña"
+    },
+    "buttons": {
+      "login": "Ingresar",
+      "signup": "Crear Cuenta"
+    },
+    "messages": {
+      "errorEmpty": "Debe ingresar correo electrónico y contraseña.",
+      "errorCredential": "El correo electrónico o contraseña son invalidos, por favor verifique."
+    }
+  },
+  "signup": {
+    "title": "Crear Cuenta - TECMarket",
+    "label": {
+      "id": "Identificación",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "phone": "Telefóno",
+      "email": "Correo Electrónico",
+      "birthday": "Fecha de Nacimiento",
+      "username": "Usuario",
+      "password": "Contraseña",
+      "passwordConfirm": "Confirmar Contraseña"
+    },
+    "placeholders": {
+      "id": "Número de identificación",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "phone": "Número de telefóno",
+      "email": "Correo electrónico",
+      "birthday": "yyyy-mm-dd",
+      "password": "Contraseña",
+      "userName": "Usuario"
+    },
+    "buttons": {
+      "accept": "Aceptar",
+      "cancel": "Cancelar"
+    },
+    "messages": {
+      "success": "¡Bienvenido al sistema VuelaTEC!",
+      "errorCreate": "La cuenta de correo electrónico ya está en uso por otra cuenta.",
+      "errorName": "Debe ingresar nombre completo.",
+      "errorUserName": "Debe ingresar numero de identificacion y usuario.",
+      "errorBirthday": "Debe ingresar una fecha de nacimiento valida.",
+      "errorEmail": "Debe ingresar un correo valido.",
+      "errorPhone": "Debe ingresar al menos un numero telefonico.",
+      "errorPassword": "Debe ingresar una contraseña para crear la cuenta.",
+      "errorPasswordLength": "La contraseña debe tener al menos 6 caracteres.",
+      "errorPasswordConfirm": "La contraseña de confirmacion es incorrecta, valide."
+    }
+  },
+  "menu": {
+    "labels": {
+      "logout": "Cerrar Sesión",
+      "title": "TECMarket",
+      "account": "Mi cuenta",
+      "supermarkets": "Supermercados",
+      "products": "Productos",
+      "orders": "Pedidos"
+    }
+  },
+  "supermarket": {
+    "labels": {
+      "create": "Agregar Supermercado",
+      "read": "Ver Supermercados",
+      "update": "Actualizar Supermercados",
+      "delete": "Borrar Supermercados",
+      "tableDescription": "Descripción",
+      "tableName": "Nombre"
+    },
+    "data": {
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "address": "Dirección",
+      "name": "Nombre",
+      "description": "Descripción",
+      "photo": "Foto URL",
+      "phone": "Número de Teléfono",
+      "rating": "Clasificación",
+      "schedule": "Horario",
+      "website": "Sitio web"
+    },
+    "buttons": {
+      "addSupermarket": "Confirmar",
+      "cancelAddSupermarket": "Cancelar",
+      "findOnLatLong": "Buscar"
+    },
+    "messages": {
+      "errorEmptyAddress": "Debe ingresar una dirección para el supermercado.",
+      "successAdd": "Se agregó correctamente el nuevo supermercado."
+    }
+  }
+}

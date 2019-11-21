@@ -1,0 +1,102 @@
+{
+  "language": "EN",
+  "login": {
+    "label": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "placeholders": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "buttons": {
+      "login": "Log in",
+      "signup": "Sign up"
+    },
+    "messages": {
+      "errorEmpty": "You must enter email and password.",
+      "errorCredential": "The email or password are invalid, please verify."
+    }
+  },
+  "signup": {
+    "title": "Sign up - TECMarket",
+    "label": {
+      "id": "Identification",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "email": "Email",
+      "birthday": "Birthday",
+      "username": "Username",
+      "password": "Password",
+      "passwordConfirm": "Password Confirm"
+    },
+    "placeholders": {
+      "id": "Identification",
+      "firstName": "Name",
+      "lastName": "Surnames",
+      "phone": "Phone number",
+      "email": "Email",
+      "birthday": "yyyy-mm-dd",
+      "password": "Passsword",
+      "userName": "Username"
+    },
+    "buttons": {
+      "accept": "Accept",
+      "cancel": "Cancel"
+    },
+    "messages": {
+      "success": "Welcome to the VuelaTEC system!",
+      "errorCreate": "The email address is already in use by another account.",
+      "errorName": "You must enter full name.",
+      "errorUserName": "You must enter the identification number and user.",
+      "errorBirthday": "You must enter a valid birth date.",
+      "errorEmail": "You must enter a valid email.",
+      "errorPhone": "You must enter at least one phone number.",
+      "errorPassword": "You must enter a password to create the account.",
+      "errorPasswordLength": "Password should be at least 6 characters",
+      "errorPasswordConfirm": "The confirmation password is incorrect, valid."
+    }
+  },
+  "menu": {
+    "labels": {
+      "logout": "Log Out",
+      "title": "TECMarket",
+      "account": "Account",
+      "supermarkets": "Supermarkets",
+      "products": "Products",
+      "orders": "Orders"
+    }
+  },
+  "supermarket": {
+    "labels": {
+      "create": "Add Supermarket",
+      "read": "View Supermarket",
+      "update": "Update Supermarket",
+      "delete": "Delete Supermarket",
+      "tableDescription": "Description",
+      "tableName": "Main Name"
+    },
+    "data": {
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "address": "Address",
+      "name": "Name",
+      "description": "Description",
+      "photo": "Photo URL",
+      "phone": "Phone Number",
+      "rating": "Rating",
+      "schedule": "Schedule",
+      "website": "Website"
+    },
+    "buttons": {
+      "addSupermarket": "Confirm",
+      "cancelAddSupermarket": "Cancel",
+      "findOnLatLong": "Find"
+    },
+    "messages": {
+      "errorEmptyAddress": "You must enter an address for the supermarket.",
+      "successAdd": "The new supermarket was successfully added."
+    }
+  }
+}
