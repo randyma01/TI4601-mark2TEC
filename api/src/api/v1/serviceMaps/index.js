@@ -1,8 +1,8 @@
 
 
 const googleMapsClient = require('@google/maps').createClient({
-  key: 'AIzaSyDdj0iI95wD_3uYk1rDVEAvzslq7qtoTPs',
-  Promise: Promise
+  key: 'API-KEY-MAPS',
+  Promise: ''
 });
 
 function ServiceMapsRoutes(server) {
