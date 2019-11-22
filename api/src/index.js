@@ -17,14 +17,13 @@ const init = async () => {
   });
 
   const firebaseConfig = {
-    apiKey: 'api-key',
-    authDomain: 'project-id.firebaseapp.com',
-    databaseURL: 'https://project-id.firebaseio.com',
-    projectId: 'project-id',
-    storageBucket: 'project-id.appspot.com',
-    messagingSenderId: 'sender-id',
-    appId: 'app-id',
-    measurementId: 'G-measurement-id'
+    apiKey: "AIzaSyC-9yROEjbC0dstjE1QbFnzrd_htE-wtsY",
+    authDomain: "tecmarket-515f4.firebaseapp.com",
+    databaseURL: "https://tecmarket-515f4.firebaseio.com",
+    projectId: "tecmarket-515f4",
+    storageBucket: "tecmarket-515f4.appspot.com",
+    messagingSenderId: "744991314664",
+    appId: "1:744991314664:web:310a6968047a06aa0c6f5d"
   };
 
   server.route({
