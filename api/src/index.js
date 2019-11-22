@@ -3,9 +3,13 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+import ServiceMapsRoutes from './api/v1/serviceMaps';
+import CustomersRoutes from './api/v1/customers';
+import EmployeesRoutes from './api/v1/employees';
+
 const init = async () => {
   const server = hapi.server({
-    port: 3000,
+    port: 8080,
     host: 'localhost',
     routes: {
       cors: true
@@ -32,7 +36,10 @@ const init = async () => {
   });
 
   try {
-    //firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
+    CustomersRoutes(server, firebase);
+    EmployeesRoutes(server, firebase);
+    ServiceMapsRoutes(server);
 
     await server.start();
   } catch (err) {
