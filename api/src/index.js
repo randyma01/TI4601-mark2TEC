@@ -1,8 +1,10 @@
 import hapi from '@hapi/hapi';
 import firebase from 'firebase/app';
+import { v1 as neo4j } from 'neo4j-driver';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+import Neo4jRoutes from './api/v1/neo4j';
 import ServiceMapsRoutes from './api/v1/serviceMaps';
 import CustomersRoutes from './api/v1/customers';
 import EmployeesRoutes from './api/v1/employees';
@@ -36,10 +38,16 @@ const init = async () => {
   });
 
   try {
-    firebase.initializeApp(firebaseConfig);
+    /*  firebase.initializeApp(firebaseConfig);
     CustomersRoutes(server, firebase);
     EmployeesRoutes(server, firebase);
-    ServiceMapsRoutes(server);
+    ServiceMapsRoutes(server); */
+
+    const driver = neo4j.driver(
+      'bolt://localhost',
+      neo4j.auth.basic('neo4j', 'tecmarket')
+    );
+    const session = driver.session();
 
     await server.start();
   } catch (err) {
