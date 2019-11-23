@@ -25,6 +25,15 @@ const session = driver.session();
 
 
 
+//otros queries
+
+//borrar la base
+// MATCH (n) DETACH DELETE n;
+
+//obtener toda la base
+//MATCH (n) RETURN n;
+
+
 
 
 
@@ -131,7 +140,7 @@ const init = async () => {
             var supermarket_website = "";
             const session = driver.session();
             return session
-            .run('MERGE (m:Client {name: $name, latitud: $latitud, longitud: $longitud, horario: $horario,'
+            .run('MERGE (m:SuperMarket {name: $name, latitud: $latitud, longitud: $longitud, horario: $horario,'
                  + 'rating: $rating, direccion: $direccion, telefono: $telefono, numOfOrders: $numOfOrders, website: $website}) RETURN c;', 
             {name: supermarket_name, latitud: supermarket_latitud, longitud: supermarket_longitud, horario: supermarket_horario,
               rating: supermarket_rating, direccion: supermarket_direccion, telefono: supermarket_telefono, numOfOrders: supermarket_numoforders,
@@ -169,7 +178,7 @@ const init = async () => {
             var order_necesity = ""; 
             const session = driver.session();
             return session
-            .run('MERGE (o:Order {product: $product, quantity: $quantity, state: $state, ' 
+            .run('MERGE (o:Pedido {product: $product, quantity: $quantity, state: $state, ' 
                 + 'price: $price, date: $date, necesity: $necesity }) RETURN c;', 
                  { product: order_product, quantity: order_quantity, state: order_state, price: order_price,
                    date: order_date, necesity: order_necesity })
@@ -200,7 +209,7 @@ const init = async () => {
                 var client_ssn = ""; 
                 const session = driver.session();
                 return session
-                .run('MATCH (o:Order {product: $product})'
+                .run('MATCH (o:Pedido {product: $product})'
                     + 'MATCH (c:Client {ssn: $ssn}) '
                     + 'CREATE (c)-[:ORDERED]->(o)', 
                      { product: order_product, ssn: client_ssn,})
@@ -232,8 +241,8 @@ const init = async () => {
                 var market_name = ""; 
                 const session = driver.session();
                 return session
-                .run('MATCH (o:Order {product: $product})'
-                    + 'MATCH (m:Market {name: $name}) '
+                .run('MATCH (o:Pedido {product: $product})'
+                    + 'MATCH (m:SuperMarket {name: $name}) '
                     + 'CREATE (m)-[:IS_FROM]->(o)', 
                      { product: order_product, name: market_name,})
                 .then(function(result){
