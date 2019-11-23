@@ -1,15 +1,195 @@
 function Neo4jRoutes(server) {
-  //-------------------------------------------------//
-  //---------------------Reports---------------------//
-  //-------------------------------------------------//
-
-  // 1. -- Get Client -- //
   server.route(
+    //-------------------------------------------------//
+    //----------------------Create---------------------//
+    //-------------------------------------------------//
+
+    // -- New Client -- //
     {
       method: 'GET',
-      path: '/getClient',
+      path: '/Addclient',
       handler: (request, reply) => {
-        var client_name = 'Ash Ketchum'; // nombre que se uso como ejemplo, aqui iria la variable que se ocupe
+        const clientName = request.payload.clientName;
+        const clientPassword = request.payload.clientPassword;
+        const clientUser = request.payload.clientUser;
+        const clientBirthdate = request.payload.clientBirthdate;
+        const clientEmail = request.payload.clientEmail;
+        const clientSsn = request.payload.clientSsn;
+        const clientPhone = request.payload.clientPhone;
+        const session = driver.session();
+        return session
+          .run(
+            'MERGE (c:Client {name: $name, password: $password, user: $user, birthDate: $birthdate, email: $email, ' +
+              'ssn: $ssn, phone: $phone}) RETURN c;',
+            {
+              name: clientName,
+              password: clientPassword,
+              user: clientUser,
+              birthdate: clientBirthdate,
+              email: clientEmail,
+              ssn: clientSsn,
+              phone: clientPhone
+            }
+          )
+          .then(function(result) {
+            let movarray = [];
+
+            console.log(movarray);
+            return movarray;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
+    },
+
+    // -- New Supermarket -- //
+    {
+      method: 'GET',
+      path: '/AddSupermarket',
+      handler: (request, reply) => {
+        const supermarketName = request.payload.supermarketName;
+        const supermarketLatitud = request.payload.supermarketLatitud;
+        const supermarketLongitud = request.payload.supermarketLongitud;
+        const supermarketHorario = request.payload.supermarketHorario;
+        const supermarketRating = request.payload.supermarketRating;
+        const supermarketDireccion = request.payload.supermarketDireccion;
+        const supermarketTelefono = request.payload.supermarketTelefono;
+        const supermarketNumoforders = request.payload.supermarketNumoforders;
+        const supermarketWebsite = request.payload.supermarketWebsite;
+        const session = driver.session();
+        return session
+          .run(
+            'MERGE (m:SuperMarket {name: $name, latitud: $latitud, longitud: $longitud, horario: $horario,' +
+              'rating: $rating, direccion: $direccion, telefono: $telefono, numOfOrders: $numOfOrders, website: $website}) RETURN c;',
+            {
+              name: supermarketName,
+              latitud: supermarketLatitud,
+              longitud: supermarketLongitud,
+              horario: supermarketHorario,
+              rating: supermarketRating,
+              direccion: supermarketDireccion,
+              telefono: supermarketTelefono,
+              numOfOrders: supermarketNumoforders,
+              website: supermarketWebsite
+            }
+          )
+          .then(function(result) {
+            let movarray = [];
+
+            console.log(movarray);
+            return movarray;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
+    },
+
+    // -- New Order -- //
+    {
+      method: 'GET',
+      path: '/AddOrder',
+      handler: (request, reply) => {
+        const orderProduct = request.payload.orderProduct;
+        const orderQuantity = request.payload.orderQuantity;
+        const orderState = request.payload.orderState;
+        const orderPrice = request.payload.orderPrice;
+        const orderDate = request.payload.orderDate;
+        const orderNecesity = request.payload.orderNecesity;
+        const session = driver.session();
+        return session
+          .run(
+            'MERGE (o:Pedido {product: $product, quantity: $quantity, state: $state, ' +
+              'price: $price, date: $date, necesity: $necesity }) RETURN c;',
+            {
+              product: orderProduct,
+              quantity: orderQuantity,
+              state: orderState,
+              price: orderPrice,
+              date: orderDate,
+              necesity: orderNecesity
+            }
+          )
+          .then(function(result) {
+            var movarray = [];
+
+            console.log(movarray);
+            return movarray;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
+    },
+
+    //-------------------------------------------------//
+    //--------------------Relation---------------------//
+    //-------------------------------------------------//
+
+    // -- Relation Client-Order -- //
+    {
+      method: 'GET',
+      path: '/ClientOrderRelation',
+      handler: (request, reply) => {
+        var order_product = request.payload.order_product; // nombre que se uso como ejemplo, aqui iria la variable que se ocupe
+        var client_ssn = request.payload.order_ssn;
+        const session = driver.session();
+        return session
+          .run(
+            'MATCH (o:Pedido {product: $product})' +
+              'MATCH (c:Client {ssn: $ssn}) ' +
+              'CREATE (c)-[:ORDERED]->(o)',
+            { product: order_product, ssn: client_ssn }
+          )
+          .then(function(result) {
+            var movarray = [];
+
+            console.log(movarray);
+            return movarray;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
+    },
+
+    // -- Relation Order-Supermarket -- //
+    {
+      method: 'GET',
+      path: '/MarketOrdeRelation',
+      handler: (request, reply) => {
+        var order_product = request.payload.order_product; // nombre que se uso como ejemplo, aqui iria la variable que se ocupe
+        var market_name = request.payload.market_name;
+        const session = driver.session();
+        return session
+          .run(
+            'MATCH (o:Pedido {product: $product})' +
+              'MATCH (m:SuperMarket {name: $name}) ' +
+              'CREATE (m)-[:IS_FROM]->(o)',
+            { product: order_product, name: market_name }
+          )
+          .then(function(result) {
+            var movarray = [];
+
+            console.log(movarray);
+            return movarray;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
+    },
+    //-------------------------------------------------//
+    //---------------------Review----------------------//
+    //-------------------------------------------------//
+
+    // -- Get Client -- //
+    {
+      method: 'GET',
+      path: '/GetClient',
+      handler: (request, reply) => {
+        var client_name = request.payload.client_name;
         const session = driver.session();
         return session
           .run('MATCH (c:Client {name: $name}) RETURN c;', {
@@ -29,22 +209,20 @@ function Neo4jRoutes(server) {
       }
     },
 
-    // 2. -- Get specific client and his history. -- //
+    // -- Get specific client and his history. -- //
     {
       method: 'GET',
-      path: '/getClientOrders',
+      path: '/GetClientOrders',
       handler: (request, reply) => {
-        var client_name = 'Ash Ketchum'; // nombre que se uso como ejemplo, aqui iria la variable que se ocupe
+        var client_name = request.payload.client_name;
         const session = driver.session();
 
-        // para acceder se usa la sesion que tiene la forma session.run().then().catch()
-        return session // vvvvv eso de abajo es el nombre de la variable que se sustituye en el query
+        return session
           .run(
             'MATCH (c:Client {name: $name})-[:ORDERED]->(p:Pedido) RETURN c,p;',
             { name: client_name }
           )
           .then(function(result) {
-            //^^^  este es el orden de retorno del query
             var movarray = [];
             result.records.forEach(function(record) {
               movarray.push({
@@ -62,10 +240,38 @@ function Neo4jRoutes(server) {
       }
     },
 
-    // 3. -- Top 5 of stores with most order. -- //
+    // -- Get Supermakets with orders. -- //
     {
       method: 'GET',
-      path: '/getTop5',
+      path: '/GetSupermarket',
+      handler: (request, reply) => {
+        var client_name = request.payload.client_name;
+        const session = driver.session();
+        return session
+          .run(
+            'MATCH (c:Client {name: $name})-[:ORDERED]->(p:Pedido) MATCH (p)-[:IS_FROM]->(m:SuperMarket) RETURN m;',
+            { name: client_name }
+          )
+          .then(function(result) {
+            var movarray = [];
+            result.records.forEach(function(record) {
+              movarray.push({
+                Super_Market: record._fields[0].properties.name
+              });
+            });
+            console.log(movarray);
+            return movarray;
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+      }
+    },
+
+    // -- Top 5 of stores with most order. -- //
+    {
+      method: 'GET',
+      path: '/GetTop5',
       handler: (request, reply) => {
         const session = driver.session();
         return session
@@ -89,12 +295,12 @@ function Neo4jRoutes(server) {
       }
     },
 
-    // 4. -- Clients with commons orders in the same store. -- //
+    // -- Clients with commons orders in the same store. -- //
     {
       method: 'GET',
-      path: '/getCommonClients',
+      path: '/GetCommonClients',
       handler: (request, reply) => {
-        var client_name = 'Ash Ketchum'; // nombre que se uso como ejemplo, aqui iria la variable que se ocupe
+        var client_name = request.payload.client_name;
         const session = driver.session();
         return session
           .run(
@@ -119,13 +325,13 @@ function Neo4jRoutes(server) {
       }
     },
 
-    // 5. -- Suggetions of commons orders by one client  -- //
+    // -- Suggetions of commons orders by one client  -- //
     {
       method: 'GET',
-      path: '/getRecommendedProducts',
+      path: '/GetRecommendedProducts',
       handler: (request, reply) => {
-        var client_name = 'Ash Ketchum'; // nombre que se uso como ejemplo, aqui iria la variable que se ocupe
-        var market_name = 'Walmart Sanjose'; // nombre que se uso como ejemplo, aqui iria la variable que se ocupe
+        var client_name = request.payload.client_name;
+        var market_name = request.payload.market_name;
         const session = driver.session();
         return session
           .run(

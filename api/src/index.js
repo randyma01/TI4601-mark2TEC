@@ -44,9 +44,10 @@ const init = async () => {
     ServiceMapsRoutes(server); */
 
     const driver = neo4j.driver(
-      'bolt://localhost',
+      'bolt://localhost:7687',
       neo4j.auth.basic('neo4j', 'tecmarket')
     );
+
     const session = driver.session();
 
     await server.start();
