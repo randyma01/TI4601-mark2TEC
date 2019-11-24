@@ -43,7 +43,8 @@
     },
     "buttons": {
       "accept": "Accept",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "delete": "Delete Account"
     },
     "messages": {
       "success": "Welcome to the VuelaTEC system!",
@@ -55,17 +56,32 @@
       "errorPhone": "You must enter at least one phone number.",
       "errorPassword": "You must enter a password to create the account.",
       "errorPasswordLength": "Password should be at least 6 characters",
-      "errorPasswordConfirm": "The confirmation password is incorrect, valid."
+      "errorPasswordConfirm": "The confirmation password is incorrect, valid.",
+      "editProfileSuccess": "Profile edited.",
+      "confirmDeleteProfile": "Confirm to delete the profile."
     }
   },
   "menu": {
     "labels": {
-      "logout": "Log Out",
-      "title": "TECMarket",
-      "account": "Account",
-      "supermarkets": "Supermarkets",
-      "products": "Products",
-      "orders": "Orders"
+      "customer": {
+        "logout": "Log Out",
+        "title": "TECMarket",
+        "account": "My Account",
+        "supermarkets": "Supermarkets",
+        "products": "Buy Products",
+        "orders": "My Orders"
+      },
+      "employee": {
+        "logout": "Log Out",
+        "title": "TECMarket",
+        "supermarkets": "Supermarkets",
+        "products": "Products",
+        "orders": "Orders"
+      },
+      "general": {
+        "logout": "Log Out",
+        "title": "TECMarket"
+      }
     }
   },
   "supermarket": {
@@ -75,7 +91,8 @@
       "update": "Update Supermarket",
       "delete": "Delete Supermarket",
       "tableDescription": "Description",
-      "tableName": "Main Name"
+      "tableName": "Main Name",
+      "tabSitesNear": "Sites Near Supermarket"
     },
     "data": {
       "latitude": "Latitude",
@@ -96,7 +113,114 @@
     },
     "messages": {
       "errorEmptyAddress": "You must enter an address for the supermarket.",
-      "successAdd": "The new supermarket was successfully added."
+      "successAdd": "The new supermarket was successfully added.",
+      "confirmDelete": "Confirm to delete the selected supermarket.",
+      "successDelete": "Supermarket deleted, update view.",
+      "confirmUpdate": "Confirm to edit the selected supermarket.",
+      "successUpdate": "Supermarket edited, update view."
+    },
+    "info": {
+      "labels": {
+        "Title": "Information on registered branches and request information from sites near a branch",
+        "selectSupermarket": "Select a supermarket",
+        "selectType": "Select a type",
+        "type": "Type",
+        "supermarket": "Supermarket",
+        "radius": "Radius",
+        "distance": "Distance",
+        "place": "Place Name"
+      },
+      "types": {
+        "restaurant": "Restaurant",
+        "movie_theater": "Movie Theater",
+        "doctor": "Doctor",
+        "museum": "Museum",
+        "bar": "Bar"
+      },
+      "buttons": {
+        "search": "Search information",
+        "add": "Add Place"
+      },
+      "messages": {
+        "errorEmptySuper": "You must select a supermarket to search.",
+        "errorEmptyRadius": "You must enter a radius in meters, Max 50 km."
+      }
+    }
+  },
+  "product": {
+    "labels": {
+      "create": "Add Prodcut",
+      "read": "View Product",
+      "update": "Update Product",
+      "delete": "Delete Product"
+    },
+    "data": {
+      "code": "Code",
+      "description": "Description",
+      "name": "Name",
+      "photo": "Photo URL",
+      "price": "Price Unit",
+      "supermarket": "Id Supermarket",
+      "codeFind": "Product code modify"
+    },
+    "buttons": {
+      "addProduct": "Add new product",
+      "addConfirm": "Confirm",
+      "addCancel": "Cancel",
+      "find": "Search"
+    },
+    "messages": {
+      "confirmAdd": "Confirm to add new product.",
+      "successAdd": "The new product was successfully added.",
+      "confirmDelete": "Confirm to delete the selected product.",
+      "successDelete": "Product deleted, update view.",
+      "confirmUpdate": "Confirm to edit the selected product.",
+      "successUpdate": "Product edited, update view.",
+      "errorEmptyData": "You must enter a data for the product.",
+      "errorEmptyCode": "You must enter a code for search product."
+    }
+  },
+  "order": {
+    "labels": {
+      "create": "New Order",
+      "read": "View Order",
+      "update": "Update Order",
+      "delete": "Delete Order",
+      "detailOrder": "Detail Order",
+      "removeProduct": "Remove",
+      "totalAmount": "Total amount: $",
+      "viewOrder": "See my Orders"
+    },
+    "data": {
+      "order": "N.º Order",
+      "totalAmount": "Total Amount",
+      "date": "Date",
+      "products": "Products",
+      "state": "State",
+      "supermarket": "Supermarket Code",
+      "amount": "Amount",
+      "need": "Need",
+      "description": "Description",
+      "price": "Price Unit"
+    },
+    "buttons": {
+      "addOrder": "Buy products",
+      "addProduct": "Add product",
+      "addConfirm": "Confirm",
+      "addCancel": "Cancel",
+      "find": "Search"
+    },
+    "messages": {
+      "confirmAdd": "Confirm to buy products.",
+      "confirmOrder": "Confirm add new order",
+      "successAdd": "The new order was successfully added. Number Order:",
+      "confirmDelete": "Confirm to delete the selected product.",
+      "successDelete": "Product deleted, update view.",
+      "confirmUpdate": "Confirm to edit the selected product.",
+      "successUpdate": "Product edited, update view.",
+      "errorEmptyData": "You must enter a data for the product.",
+      "errorEmptyCode": "You must enter a code for search product.",
+      "errorEmptyOrder": "You must enter products to order."
     }
   }
 }

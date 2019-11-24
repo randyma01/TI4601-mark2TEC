@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Card, Col, Container, Form, FormControl, Modal, Row, Tab, Tabs, Table, Badge } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row, Tab, Table, Tabs } from 'react-bootstrap';
 import { I18nextProvider, withTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AddIcon from '@material-ui/icons/Add';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import IconButton from '@material-ui/core/IconButton';
 
 /*Tabs*/
@@ -55,7 +55,8 @@ class Supermarket extends React.Component {
           responseJson.length !== 0 ? this.setState({
             supermarkets: responseJson,
             latitude: '', longitude: '',
-            isNotResultPrediction: false
+            isNotResultPrediction: false,
+            isResultGeo: false
           }) : this.setState({ isNotResultPrediction: true });
         })
         .catch(error => {
@@ -182,9 +183,91 @@ class Supermarket extends React.Component {
           console.error(error);
         });
     }
-
-
   }
+
+
+  _onClickFindLatLng = async () => {
+    const { t } = this.props;
+    if (this.state.latitude === '' || this.state.longitude === '') {
+      window.confirm(t('supermarket.messages.errorEmptyAddress'))
+    } else {
+      let data = {
+        latitude: this.state.latitude,
+        longitude: this.state.longitude
+      }
+      await fetch('http://localhost:8080/v1/findByLatLng',
+        {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(responseJson => {
+          if (responseJson !== '') {
+            this.setState({
+              supermarkets: responseJson,
+              address: '',
+              isNotResultPrediction: false,
+              isResultGeo: true
+            })
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
+
+
+  _submitData = async () => {
+    const { t } = this.props;
+    let data = {
+      address: this.state.address,
+      description: this.state.description,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      name: this.state.name,
+      phone: this.state.phone,
+      photo: this.state.photo,
+      rating: this.state.rating,
+      schedule: this.state.schedule,
+      urlWebsite: this.state.urlWebsite
+    }
+    await fetch('http://localhost:8080/v1/employee/addSupermarket',
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.result !== '') {
+          window.confirm(t('supermarket.messages.successAdd'))
+          this.setState({
+            showAddSuper: !this.state.showAddSuper,
+            address: '',
+            description: '',
+            latitude: '',
+            longitude: '',
+            name: '',
+            phone: '',
+            photo: '',
+            rating: '',
+            schedule: '',
+            urlWebsite: '',
+            supermarkets: []
+          })
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
 
   _onShowModal() {
     const { t } = this.props;
@@ -197,8 +280,8 @@ class Supermarket extends React.Component {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Confirmar Supermercado
-      </Modal.Title>
+            {t('supermarket.labels.create')}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -296,88 +379,6 @@ class Supermarket extends React.Component {
     );
   }
 
-  _onClickFindLatLng = async () => {
-    const { t } = this.props;
-    if (this.state.latitude === '' || this.state.longitude === '') {
-      window.confirm(t('supermarket.messages.errorEmptyAddress'))
-    } else {
-      let data = {
-        latitude: this.state.latitude,
-        longitude: this.state.longitude
-      }
-      await fetch('http://localhost:8080/v1/findByLatLng',
-        {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response => response.json())
-        .then(responseJson => {
-          if (responseJson !== '') {
-            this.setState({
-              supermarkets: responseJson,
-              address: '',
-              isNotResultPrediction: false,
-              isResultGeo: true
-            })
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-  }
-
-
-  _submitData = async () => {
-    const { t } = this.props;
-    let data = {
-      address: this.state.address,
-      description: this.state.description,
-      latitude: this.state.latitude,
-      longitude: this.state.longitude,
-      name: this.state.name,
-      phone: this.state.phone,
-      photo: this.state.photo,
-      rating: this.state.rating,
-      schedule: this.state.schedule,
-      urlWebsite: this.state.urlWebsite
-    }
-    await fetch('http://localhost:8080/v1/employee/addSupermarket',
-      {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.result !== '') {
-          window.confirm(t('supermarket.messages.successAdd'))
-          this.setState({
-            showAddSuper: !this.state.showAddSuper,
-            address: '',
-            description: '',
-            latitude: '',
-            longitude: '',
-            name: '',
-            phone: '',
-            photo: '',
-            rating: '',
-            schedule: '',
-            urlWebsite: ''
-          })
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-
   render() {
     const { i18n } = this.props
     const { t } = this.props;
@@ -433,8 +434,8 @@ class Supermarket extends React.Component {
                       <td>{this.state.isResultGeo ? item.address_components[0].long_name : item.structured_formatting.main_text}</td>
                       <td>{this.state.isResultGeo ? item.formatted_address : item.description}</td>
                       <td>
-                        <IconButton aria-label="delete" style={{ color: 'red' }} onClick={this._onClickAddSupermarket.bind(this, item.place_id, this.state.isResultGeo ? item.formatted_address : item.description)}>
-                          <AddIcon />
+                        <IconButton aria-label="add" style={{ color: '#328da8' }} onClick={this._onClickAddSupermarket.bind(this, item.place_id, this.state.isResultGeo ? item.formatted_address : item.description)}>
+                          <AddShoppingCartIcon fontSize='large' />
                         </IconButton>
                       </td>
                     </tr>
@@ -447,13 +448,19 @@ class Supermarket extends React.Component {
             </div>
           </Tab>
           <Tab eventKey="read" title="R">
-            <ReadSupermarket />
+            <I18nextProvider i18n={i18n}>
+              <ReadSupermarket />
+            </I18nextProvider>
           </Tab>
           <Tab eventKey="update" title="U" >
-            <UpdateSupermarket />
+            <I18nextProvider i18n={i18n}>
+              <UpdateSupermarket />
+            </I18nextProvider>
           </Tab>
           <Tab eventKey="delete" title="D" >
-            <DeleteSupermarket />
+            <I18nextProvider i18n={i18n}>
+              <DeleteSupermarket />
+            </I18nextProvider>
           </Tab>
         </Tabs>
       </Container>

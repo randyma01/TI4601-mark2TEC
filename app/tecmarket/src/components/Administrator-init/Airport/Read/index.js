@@ -1,23 +1,21 @@
 import React from 'react';
 import { Container, Table } from 'react-bootstrap';
-import { I18nextProvider, withTranslation } from 'react-i18next';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import IconButton from '@material-ui/core/IconButton';
 import Refresh from '@material-ui/icons/Refresh';
 
-class Product extends React.Component {
+class Airport extends React.Component {
   _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
-      listProducts: []
+      listAirports: []
     };
   }
 
   componentDidMount = async () => {
     this._isMounted = true;
-
-    await fetch('http://localhost:8080/v1/employee/findAllProducts',
+    await fetch('http://localhost:3000/admin/findAllAirports/',
       {
         method: "GET"
       })
@@ -25,7 +23,7 @@ class Product extends React.Component {
       .then(responseJson => {
         if (responseJson !== '' && this._isMounted) {
           this.setState({
-            listProducts: responseJson
+            listAirports: responseJson
           });
         }
       })
@@ -38,8 +36,8 @@ class Product extends React.Component {
     this._isMounted = false;
   }
 
-  _onClickRefreshProducts = async () => {
-    await fetch('http://localhost:8080/v1/employee/findAllProducts',
+  _onClickRefreshAirports = async () => {
+    await fetch('http://localhost:3000/admin/findAllAirports/',
       {
         method: "GET"
       })
@@ -47,7 +45,7 @@ class Product extends React.Component {
       .then(responseJson => {
         if (responseJson !== '') {
           this.setState({
-            listProducts: responseJson
+            listAirports: responseJson
           });
         }
       })
@@ -57,38 +55,35 @@ class Product extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
     return (
       <Container>
         <div style={{ margin: '2%' }}>
-          <h3 align='center'> {t('product.labels.read')} </h3>
+          <h3 align='center'>Ver Aeropuertos</h3>
         </div>
-        <div style={{ margin: '5%' }}>
-          <IconButton aria-label="refresh" onClick={this._onClickRefreshProducts}>
+        <div style={{ margin: '5%', height: '560px', overflowY: 'auto'}}>
+          <IconButton aria-label="refresh" onClick={this._onClickRefreshAirports}>
             <Refresh />
           </IconButton>
           <Table responsive>
             <thead>
               <tr>
-                <th>{t('product.data.code')}</th>
-                <th>{t('product.data.name')}</th>
-                <th>{t('product.data.description')}</th>
-                <th>{t('product.data.price')} ($)</th>
-                <th>{t('product.data.photo')}</th>
-                <th>{t('product.data.supermarket')}</th>
+                <th>Identificador</th>
+                <th>Nombre</th>
+                <th>País</th>
+                <th>Ciudad</th>
+                <th>Teléfono</th>
+                <th>Sitio Web</th>
               </tr>
             </thead>
             <tbody>
-              {this.state.listProducts.map((item, index) => (
+              {this.state.listAirports.map((item, index) => (
                 <tr key={index}>
-                  <td>{item.code}</td>
+                  <td>{item._id}</td>
                   <td>{item.name}</td>
-                  <td>{item.description}</td>
-                  <td>{item.price}</td>
-                  <td>
-                    <img src={item.photo} height='15%' width='15%' alt="product"></img>
-                  </td>
-                  <td>{item.supermaket}</td>
+                  <td>{item.country}</td>
+                  <td>{item.city}</td>
+                  <td>{item.number}</td>
+                  <td>{item.webPage}</td>
                 </tr>
               ))}
             </tbody>
@@ -100,4 +95,4 @@ class Product extends React.Component {
 }
 
 
-export default withTranslation()(Product);
+export default Airport;

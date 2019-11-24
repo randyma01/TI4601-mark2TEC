@@ -43,7 +43,8 @@
     },
     "buttons": {
       "accept": "Aceptar",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "delete": "Borrar Cuenta"
     },
     "messages": {
       "success": "¡Bienvenido al sistema VuelaTEC!",
@@ -55,17 +56,32 @@
       "errorPhone": "Debe ingresar al menos un numero telefonico.",
       "errorPassword": "Debe ingresar una contraseña para crear la cuenta.",
       "errorPasswordLength": "La contraseña debe tener al menos 6 caracteres.",
-      "errorPasswordConfirm": "La contraseña de confirmacion es incorrecta, valide."
+      "errorPasswordConfirm": "La contraseña de confirmacion es incorrecta, valide.",
+      "editProfileSuccess": "Perfil borrado.",
+      "confirmDeleteProfile": "Confirmar para borrar la cuenta."
     }
   },
   "menu": {
     "labels": {
-      "logout": "Cerrar Sesión",
-      "title": "TECMarket",
-      "account": "Mi cuenta",
-      "supermarkets": "Supermercados",
-      "products": "Productos",
-      "orders": "Pedidos"
+      "customer": {
+        "logout": "Cerrar Sesión",
+        "title": "TECMarket",
+        "account": "Mi cuenta",
+        "supermarkets": "Supermercados",
+        "products": "Comprar Productos",
+        "orders": "Mis Ordenes"
+      },
+      "employee": {
+        "logout": "Cerrar Sesión",
+        "title": "TECMarket",
+        "supermarkets": "Supermercados",
+        "products": "Productos",
+        "orders": "Ordenes"
+      },
+      "general": {
+        "logout": "Cerrar Sesión",
+        "title": "TECMarket"
+      }
     }
   },
   "supermarket": {
@@ -75,7 +91,8 @@
       "update": "Actualizar Supermercados",
       "delete": "Borrar Supermercados",
       "tableDescription": "Descripción",
-      "tableName": "Nombre"
+      "tableName": "Nombre",
+      "tabSitesNear": "Sitios Cercanos a Supermercado"
     },
     "data": {
       "latitude": "Latitud",
@@ -96,7 +113,114 @@
     },
     "messages": {
       "errorEmptyAddress": "Debe ingresar una dirección para el supermercado.",
-      "successAdd": "Se agregó correctamente el nuevo supermercado."
+      "successAdd": "Se agregó correctamente el nuevo supermercado.",
+      "confirmDelete": "Confirmar para borrar el supermercado seleccionado.",
+      "successDelete": "Supermercado borrado exisotamente, actualizar vista.",
+      "confirmUpdate": "Confirmar para editar el supermercado seleccionado.",
+      "successUpdate": "Supermercado editado exisotamente, actualizar vista."
+    },
+    "info": {
+      "labels": {
+        "Title": "Información sobre sucursales registradas y solicitar información de sitios cercanos a una sucursal",
+        "selectSupermarket": "Seleccionar supermercado",
+        "selectType": "Seleccionar tipo",
+        "type": "Tipo",
+        "supermarket": "Supermercado",
+        "radius": "Radio",
+        "distance": "Distancia",
+        "place": "Nombre Lugar"
+      },
+      "types": {
+        "restaurant": "Restaurante",
+        "movie_theater": "Cine",
+        "doctor": "Doctore",
+        "museum": "Museo",
+        "bar": "Bar"
+      },
+      "buttons": {
+        "search": "Buscar Información",
+        "add": "Agregar Lugar"
+      },
+      "messages": {
+        "errorEmptySuper": "Debe seleccionar un supermercado.",
+        "errorEmptyRadius": "Debe ingresar el radio, en metros, Max 50 km."
+      }
+    }
+  },
+  "product": {
+    "labels": {
+      "create": "Agregar Producto",
+      "read": "Ver Producto",
+      "update": "Actualizar Producto",
+      "delete": "Borrar Producto"
+    },
+    "data": {
+      "code": "Codigo",
+      "description": "Descricción",
+      "name": "Nombre",
+      "photo": "Foto URL",
+      "price": "Precio Unitario",
+      "supermarket": "Id Supermercado",
+      "codeFind": "Codigo de producto a modificar"
+    },
+    "buttons": {
+      "addProduct": "Agregar nuevo producto",
+      "addConfirm": "Confirmar",
+      "addCancel": "Cancelar",
+      "find": "Buscar"
+    },
+    "messages": {
+      "confirmAdd": "Confirmar agregar nuevo producto.",
+      "successAdd": "El nuevo producto ha sido agregado correctamente.",
+      "confirmDelete": "Confirmar borrar el producto seleccionado.",
+      "successDelete": "Producto borrado, actualizar vista.",
+      "confirmUpdate": "Confirmar editar el producto seleccionado.",
+      "successUpdate": "Producto editado, actualizar vista.",
+      "errorEmptyData": "Debe ingresar datos para el producto.",
+      "errorEmptyCode": "Debe ingresar un codigo para buscar productos."
+    }
+  },
+  "order": {
+    "labels": {
+      "create": "Nueva Orden",
+      "read": "Ver Orden",
+      "update": "Actualizar Orden",
+      "delete": "Borrar Orden",
+      "detailOrder": "Detalle de Orden",
+      "removeProduct": "Remover",
+      "totalAmount": "Monto Total: $",
+      "viewOrder": "Ver mis Ordenes"
+    },
+    "data": {
+      "order": "N.º Orden",
+      "totalAmount": "Monto Total",
+      "date": "Fecha",
+      "products": "Productos",
+      "state": "Estado",
+      "supermarket": "Codigo Supermercado",
+      "amount": "Monto",
+      "need": "Necesidad",
+      "description": "Descricción",
+      "price": "Precio Unitario"
+    },
+    "buttons": {
+      "addOrder": "Comprar productos",
+      "addProduct": "Agregar producto",
+      "addConfirm": "Confirmar",
+      "addCancel": "Cancelar",
+      "find": "Buscar"
+    },
+    "messages": {
+      "confirmAdd": "Confirmar para comprar productos.",
+      "confirmOrder": "Confirmar agregar nueva orden",
+      "successAdd": "La nueva orden ha sido agregada correctamente, Numero de orden: ",
+      "confirmDelete": "Confirmar para borrar el producto seleccionado.",
+      "successDelete": "Producto borrado, actualizar vista.",
+      "confirmUpdate": "Confirmar para editar el producto seleccionado.",
+      "successUpdate": "Producto editado, actualizar vista.",
+      "errorEmptyData": "Debe ingresar datos para el producto.",
+      "errorEmptyCode": "Debe ingresar un codigo para buscar productos.",
+      "errorEmptyOrder": "Debe agregar productos a la orden."
     }
   }
 }
