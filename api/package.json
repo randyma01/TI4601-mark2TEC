@@ -12,7 +12,8 @@
   "dependencies": {
     "@google/maps": "^1.0.2",
     "@hapi/hapi": "^18.4.0",
-    "firebase": "^7.3.0"
+    "firebase": "^7.3.0",
+    "neo4j-driver": "^1.7.6"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

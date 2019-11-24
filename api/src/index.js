@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+import Neo4jRoutes from './api/v1/neo4j';
 import ServiceMapsRoutes from './api/v1/serviceMaps';
 import CustomersRoutes from './api/v1/customers';
 import EmployeesRoutes from './api/v1/employees';
@@ -40,6 +41,13 @@ const init = async () => {
     CustomersRoutes(server, firebase);
     EmployeesRoutes(server, firebase);
     ServiceMapsRoutes(server);
+    Neo4jRoutes(server);
+    const driver = neo4j.driver(
+      'bolt://localhost:7687',
+      neo4j.auth.basic('neo4j', 'tecmarket')
+    );
+
+    const session = driver.session();
 
     await server.start();
   } catch (err) {
