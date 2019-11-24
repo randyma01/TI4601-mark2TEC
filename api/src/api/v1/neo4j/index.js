@@ -20,7 +20,7 @@ function Neo4jRoutes(server) {
         return session
           .run(
             'MERGE (c:Client {name: $name, password: $password, user: $user, birthDate: $birthdate, email: $email, ' +
-              'ssn: $ssn, phone: $phone}) RETURN c;',
+            'ssn: $ssn, phone: $phone}) RETURN c;',
             {
               name: clientName,
               password: clientPassword,
@@ -31,13 +31,13 @@ function Neo4jRoutes(server) {
               phone: clientPhone
             }
           )
-          .then(function(result) {
+          .then(function (result) {
             let movarray = [];
 
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -61,7 +61,7 @@ function Neo4jRoutes(server) {
         return session
           .run(
             'MERGE (m:SuperMarket {name: $name, latitud: $latitud, longitud: $longitud, horario: $horario,' +
-              'rating: $rating, direccion: $direccion, telefono: $telefono, numOfOrders: $numOfOrders, website: $website}) RETURN c;',
+            'rating: $rating, direccion: $direccion, telefono: $telefono, numOfOrders: $numOfOrders, website: $website}) RETURN c;',
             {
               name: supermarketName,
               latitud: supermarketLatitud,
@@ -74,13 +74,13 @@ function Neo4jRoutes(server) {
               website: supermarketWebsite
             }
           )
-          .then(function(result) {
+          .then(function (result) {
             let movarray = [];
 
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -101,7 +101,7 @@ function Neo4jRoutes(server) {
         return session
           .run(
             'MERGE (o:Pedido {product: $product, quantity: $quantity, state: $state, ' +
-              'price: $price, date: $date, necesity: $necesity }) RETURN c;',
+            'price: $price, date: $date, necesity: $necesity }) RETURN c;',
             {
               product: orderProduct,
               quantity: orderQuantity,
@@ -111,13 +111,13 @@ function Neo4jRoutes(server) {
               necesity: orderNecesity
             }
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
 
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -138,17 +138,17 @@ function Neo4jRoutes(server) {
         return session
           .run(
             'MATCH (o:Pedido {product: $product})' +
-              'MATCH (c:Client {ssn: $ssn}) ' +
-              'CREATE (c)-[:ORDERED]->(o)',
+            'MATCH (c:Client {ssn: $ssn}) ' +
+            'CREATE (c)-[:ORDERED]->(o)',
             { product: order_product, ssn: client_ssn }
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
 
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -165,17 +165,17 @@ function Neo4jRoutes(server) {
         return session
           .run(
             'MATCH (o:Pedido {product: $product})' +
-              'MATCH (m:SuperMarket {name: $name}) ' +
-              'CREATE (m)-[:IS_FROM]->(o)',
+            'MATCH (m:SuperMarket {name: $name}) ' +
+            'CREATE (m)-[:IS_FROM]->(o)',
             { product: order_product, name: market_name }
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
 
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -195,15 +195,15 @@ function Neo4jRoutes(server) {
           .run('MATCH (c:Client {name: $name}) RETURN c;', {
             name: client_name
           })
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
-            result.records.forEach(function(record) {
+            result.records.forEach(function (record) {
               movarray.push({ Client_Name: record._fields[0].properties.name });
             });
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -222,9 +222,9 @@ function Neo4jRoutes(server) {
             'MATCH (c:Client {name: $name})-[:ORDERED]->(p:Pedido) RETURN c,p;',
             { name: client_name }
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
-            result.records.forEach(function(record) {
+            result.records.forEach(function (record) {
               movarray.push({
                 Client_Name: record._fields[0].properties.name, //aqui es donde se sacan el valor de las "columnas" de
                 Pedido: record._fields[1].properties.product
@@ -234,7 +234,7 @@ function Neo4jRoutes(server) {
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -252,9 +252,9 @@ function Neo4jRoutes(server) {
             'MATCH (c:Client {name: $name})-[:ORDERED]->(p:Pedido) MATCH (p)-[:IS_FROM]->(m:SuperMarket) RETURN m;',
             { name: client_name }
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
-            result.records.forEach(function(record) {
+            result.records.forEach(function (record) {
               movarray.push({
                 Super_Market: record._fields[0].properties.name
               });
@@ -262,7 +262,7 @@ function Neo4jRoutes(server) {
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -278,9 +278,9 @@ function Neo4jRoutes(server) {
           .run(
             'MATCH (s:SuperMarket) RETURN s.name,s.NumOfOrders ORDER BY s.NumOfOrders DESC LIMIT 5'
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
-            result.records.forEach(function(record) {
+            result.records.forEach(function (record) {
               movarray.push({
                 SuperMarket: record._fields[0],
                 'Number of Orders': record._fields[1].low
@@ -289,7 +289,7 @@ function Neo4jRoutes(server) {
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -305,21 +305,21 @@ function Neo4jRoutes(server) {
         return session
           .run(
             'MATCH (c:Client {name:"Ash Ketchum"})-[:ORDERED]->(p:Pedido)' +
-              'MATCH (p)-[:IS_FROM]->(m:SuperMarket)' +
-              'MATCH (m)<-[:IS_FROM]-(p2:Pedido)' +
-              'MATCH (c2:Client)-[:ORDERED]->(p2)' +
-              'RETURN DISTINCT c2',
+            'MATCH (p)-[:IS_FROM]->(m:SuperMarket)' +
+            'MATCH (m)<-[:IS_FROM]-(p2:Pedido)' +
+            'MATCH (c2:Client)-[:ORDERED]->(p2)' +
+            'RETURN DISTINCT c2',
             { name: client_name }
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
-            result.records.forEach(function(record) {
+            result.records.forEach(function (record) {
               movarray.push({ Client_Name: record._fields[0].properties.name });
             });
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }
@@ -336,16 +336,16 @@ function Neo4jRoutes(server) {
         return session
           .run(
             'MATCH (c:Client {name: $clientName})-[:ORDERED]->(p:Pedido)' +
-              'MATCH (p)-[:IS_FROM]->(m:SuperMarket {name: $marketName})' +
-              'MATCH (m)<-[:IS_FROM]-(p2:Pedido)' +
-              'MATCH (c2:Client)-[:ORDERED]->(p2)' +
-              'MATCH (c2)-[:ORDERED]->(p3:Pedido)' +
-              'RETURN DISTINCT p3, m',
+            'MATCH (p)-[:IS_FROM]->(m:SuperMarket {name: $marketName})' +
+            'MATCH (m)<-[:IS_FROM]-(p2:Pedido)' +
+            'MATCH (c2:Client)-[:ORDERED]->(p2)' +
+            'MATCH (c2)-[:ORDERED]->(p3:Pedido)' +
+            'RETURN DISTINCT p3, m',
             { clientName: client_name, marketName: market_name }
           )
-          .then(function(result) {
+          .then(function (result) {
             var movarray = [];
-            result.records.forEach(function(record) {
+            result.records.forEach(function (record) {
               movarray.push({
                 Super_Market: record._fields[1].properties.name,
                 Product: record._fields[0].properties.product
@@ -354,7 +354,7 @@ function Neo4jRoutes(server) {
             console.log(movarray);
             return movarray;
           })
-          .catch(function(err) {
+          .catch(function (err) {
             console.log(err);
           });
       }

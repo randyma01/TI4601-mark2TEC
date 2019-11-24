@@ -19,11 +19,13 @@ function ServiceMapsRoutes(server) {
             destinations: destination //'9.9041169,-84.0773472'
           */
           let id = request.params.id
-          let result = await googleMapsClient.place({
-            placeid: id
+          let result = await googleMapsClient.placesNearby({
+            location: '9.9088785,-84.0852799',
+            radius: parseInt('1500'),
+            type: ['restaurant', 'bar']
           }).asPromise()
             .then((response) => {
-              return response.json.result
+              return response.json.results
             })
             .catch((err) => {
               console.log(err);
@@ -149,8 +151,57 @@ function ServiceMapsRoutes(server) {
           return reply.response(error).code(500);
         }
       }
+    },
+    {
+      method: 'POST',
+      path: '/v1/findNearPlaces',
+      handler: async (request, reply) => {
+        try {
+          let { location, type, radius } = request.payload;
+          let resultNearby = await googleMapsClient.placesNearby({
+            location: location,
+            radius: parseInt(radius),
+            type: type
+          }).asPromise()
+            .then((response) => {
+              return response.json.results
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          return reply.response(resultNearby)
+        }
+        catch (error) {
+          return reply.response(error).code(500);
+        }
+      }
+    },
+    {
+      method: 'POST',
+      path: '/v1/distancePlaceSupermarket',
+      handler: async (request, reply) => {
+        try {
+          let { origins, destinations } = request.payload;
+          let resultDistance = await googleMapsClient.distanceMatrix({
+            origins: `${origins}`,
+            units: 'metric',
+            destinations: `place_id:${destinations}`
+          }).asPromise()
+            .then((response) => {
+              return response.json.rows[0].elements[0].distance.text
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          return reply.response({ "result": resultDistance })
+        }
+        catch (error) {
+          return reply.response(error).code(500);
+        }
+      }
     }
   ]);
 }
+
 
 export default ServiceMapsRoutes;

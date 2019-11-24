@@ -38,10 +38,11 @@ const init = async () => {
   });
 
   try {
-    /*  firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     CustomersRoutes(server, firebase);
     EmployeesRoutes(server, firebase);
-    ServiceMapsRoutes(server); */
+    Neo4jRoutes(server);
+    ServiceMapsRoutes(server);
 
     const driver = neo4j.driver(
       'bolt://localhost:7687',

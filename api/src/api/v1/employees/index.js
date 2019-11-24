@@ -152,7 +152,7 @@ function EmployeesRoutes(server, firebase) {
             'name': name,
             'photo': photo,
             'price': price,
-            'supermaket': supermarketId
+            'supermarket': supermarketId
           }).then(() => {
             return 'add'
           });
@@ -230,7 +230,7 @@ function EmployeesRoutes(server, firebase) {
             'name': name,
             'photo': photo,
             'price': price,
-            'supermaket': supermarketId
+            'supermarket': supermarketId
           }).then(() => {
             return 'update'
           });

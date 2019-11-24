@@ -47,14 +47,48 @@ function CustomersRoutes(server, firebase) {
     // 1.3 -- find a customer by id -- //
     {
       method: 'GET',
-      path: '/v1/customer/myProfile/{id}',
+      path: '/v1/customer/myProfile/{customer}',
       handler: async (request, reply) => {
         try {
-          const customer = request.payload;
-          return reply.response(result);
+          const id = request.params.customer;
+          let customer = await firebase.firestore().collection('users').doc(id).get()
+            .then((doc) => {
+              if (doc.exists) {
+                return doc.data()
+              } else {
+                return ''
+              }
+            })
+          return reply.response(customer);
         }
         catch (error) {
           return reply.response(error).code(500);
+        }
+      }
+    },
+    // ** -- update customer -- ** //
+    {
+      method: 'PUT',
+      path: '/v1/customer/editProfile',
+      handler: async (request, reply) => {
+        try {
+          const { id, birthday, email, identification, name, phone, username } = request.payload;
+          let result = await firebase.firestore().collection('users').doc(id).set({
+            'birthday': birthday,
+            'email': email,
+            'identification': identification,
+            'name': name,
+            'phone': phone,
+            'username': username,
+            'role': 'customer'
+          }).then(() => {
+            return 'update';
+          });
+          //TODO EDIT Neo4j
+          return reply.response({ 'result': result });
+        }
+        catch (error) {
+          return reply.response(error);
         }
       }
     },
@@ -64,12 +98,80 @@ function CustomersRoutes(server, firebase) {
       path: '/v1/customer/deleteProfile/{id}',
       handler: async (request, reply) => {
         try {
-          const personId = request.params.id;
-          const customer = request.payload;
-          return reply.response(result);
+          let id = request.params.id
+          let result = await firebase.firestore()
+            .collection('users')
+            .doc(id).delete().then(() => {
+              return 'deleted';
+            })
+          //TODO DELETE Neo4j 
+          return reply.response({ 'result': result });
         }
         catch (error) {
-          return reply.response(error).code(500);
+          return reply.response(error);
+        }
+      }
+    },
+    // ** ------------------- [CR(ud) Order] ------------------- ** \\ 
+    // ** -- create new Order -- ** //
+    {
+      method: 'POST',
+      path: '/v1/customer/addOrder',
+      handler: async (request, reply) => {
+        try {
+          const {
+            customer,
+            products,
+            supermarketId,
+            totalAmount
+          } = request.payload;
+          let date = new Date().toLocaleString();
+          let result = await firebase.firestore().collection('orders').add({
+            'customer': customer,
+            'products': products,
+            'supermarket': supermarketId,
+            'amount': totalAmount,
+            'date': date,
+            'state': 'Registered'
+          }).then(ref => {
+            console.log('Added document with ID: ', ref.id);
+            return ref.id
+          });
+          return reply.response({ 'result': result });
+        }
+        catch (error) {
+          return reply.response(error);
+        }
+      }
+    },
+    // ** -- read orders by customer -- ** //
+    {
+      method: 'GET',
+      path: '/v1/customer/viewOrder/{customer}',
+      handler: async (request, reply) => {
+        try {
+          let customer = request.params.customer
+          let orders = [];
+          await firebase.firestore()
+            .collection('orders')
+            .where('customer', '==', customer).get()
+            .then(snapshot => {
+              if (snapshot.empty) {
+                console.log('No matching documents.');
+                return 'empty';
+              }
+              snapshot.forEach(doc => {
+                orders.push(doc.data())
+              });
+            })
+            .catch(err => {
+              console.log('Error getting documents', err);
+            });
+
+          return reply.response(orders);
+        }
+        catch (error) {
+          return reply.response(error);
         }
       }
     },
@@ -104,7 +206,38 @@ function CustomersRoutes(server, firebase) {
           return reply.response({});
         }
       }
-    }
+    },
+    // ** -- find products by supermarket -- ** //
+    {
+      method: 'GET',
+      path: '/v1/customer/findProductBySupermarket/{id}',
+      handler: async (request, reply) => {
+        try {
+          let id = request.params.id
+          let products = [];
+          await firebase.firestore()
+            .collection('products')
+            .where('supermarket', '==', id).get()
+            .then(snapshot => {
+              if (snapshot.empty) {
+                console.log('No matching documents.');
+                return 'empty';
+              }
+              snapshot.forEach(doc => {
+                products.push(doc.data())
+              });
+            })
+            .catch(err => {
+              console.log('Error getting documents', err);
+            });
+
+          return reply.response(products);
+        }
+        catch (error) {
+          return reply.response(error);
+        }
+      }
+    },
   ]);
 }
 
