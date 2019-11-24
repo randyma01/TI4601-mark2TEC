@@ -1,5 +1,6 @@
 import hapi from '@hapi/hapi';
 import firebase from 'firebase/app';
+import { v1 as neo4j } from 'neo4j-driver';
 import 'firebase/auth';
 import 'firebase/firestore';
 
@@ -40,8 +41,9 @@ const init = async () => {
     firebase.initializeApp(firebaseConfig);
     CustomersRoutes(server, firebase);
     EmployeesRoutes(server, firebase);
-    ServiceMapsRoutes(server);
     Neo4jRoutes(server);
+    ServiceMapsRoutes(server);
+
     const driver = neo4j.driver(
       'bolt://localhost:7687',
       neo4j.auth.basic('neo4j', 'tecmarket')
