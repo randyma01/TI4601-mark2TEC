@@ -7,113 +7,148 @@ function CustomersRoutes(server, firebase) {
         return '<h1>/v1/customers waiting </h1>';
       }
     },
-    // 1.1 -- create a new customer -- //
+
+    // -- New Customer -- //
     {
       method: 'POST',
       path: '/v1/customer/createProfile',
       handler: async (request, reply) => {
         try {
-          const { birthday, email, identification, name, password, phone, username } = request.payload;
-          const userUID = await firebase.auth().createUserWithEmailAndPassword(email, password)
+          const {
+            birthday,
+            email,
+            identification,
+            name,
+            password,
+            phone,
+            username
+          } = request.payload;
+          const userUID = await firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
             .then(response => {
-              return response.user.uid
+              return response.user.uid;
             })
             .catch(error => {
-              console.log(`${error.code} - ${error.message}`)
+              console.log(`${error.code} - ${error.message}`);
               return '';
             });
           if (userUID !== '') {
-            let result = await firebase.firestore().collection('users').doc(userUID).set({
-              'birthday': birthday,
-              'email': email,
-              'identification': identification,
-              'name': name,
-              'phone': phone,
-              'username': username,
-              'role': 'customer'
-            }).then(() => {
-              return 'Document successfully written'
-            });
-            return reply.response({ 'result': userUID });
+            let result = await firebase
+              .firestore()
+              .collection('users')
+              .doc(userUID)
+              .set({
+                birthday: birthday,
+                email: email,
+                identification: identification,
+                name: name,
+                phone: phone,
+                username: username,
+                role: 'customer'
+              })
+              .then(() => {
+                return 'Document successfully written';
+              });
+            return reply.response({ result: userUID });
           } else {
-            return reply.response({ 'result': 'Error add user' });
+            return reply.response({ result: 'Error add user' });
           }
-        }
-        catch (error) {
+        } catch (error) {
           return reply.response(error);
         }
       }
     },
-    // 1.3 -- find a customer by id -- //
+
+    // -- Get a Customer (by id) -- //
     {
       method: 'GET',
       path: '/v1/customer/myProfile/{customer}',
       handler: async (request, reply) => {
         try {
           const id = request.params.customer;
-          let customer = await firebase.firestore().collection('users').doc(id).get()
-            .then((doc) => {
+          let customer = await firebase
+            .firestore()
+            .collection('users')
+            .doc(id)
+            .get()
+            .then(doc => {
               if (doc.exists) {
-                return doc.data()
+                return doc.data();
               } else {
-                return ''
+                return '';
               }
-            })
+            });
           return reply.response(customer);
-        }
-        catch (error) {
+        } catch (error) {
           return reply.response(error).code(500);
         }
       }
     },
-    // ** -- update customer -- ** //
+
+    // -- Update Customer --  //
     {
       method: 'PUT',
       path: '/v1/customer/editProfile',
       handler: async (request, reply) => {
         try {
-          const { id, birthday, email, identification, name, phone, username } = request.payload;
-          let result = await firebase.firestore().collection('users').doc(id).set({
-            'birthday': birthday,
-            'email': email,
-            'identification': identification,
-            'name': name,
-            'phone': phone,
-            'username': username,
-            'role': 'customer'
-          }).then(() => {
-            return 'update';
-          });
+          const {
+            id,
+            birthday,
+            email,
+            identification,
+            name,
+            phone,
+            username
+          } = request.payload;
+          let result = await firebase
+            .firestore()
+            .collection('users')
+            .doc(id)
+            .set({
+              birthday: birthday,
+              email: email,
+              identification: identification,
+              name: name,
+              phone: phone,
+              username: username,
+              role: 'customer'
+            })
+            .then(() => {
+              return 'update';
+            });
           //TODO EDIT Neo4j
-          return reply.response({ 'result': result });
-        }
-        catch (error) {
+          return reply.response({ result: result });
+        } catch (error) {
           return reply.response(error);
         }
       }
     },
-    // 1.4 -- remove a customer by id -- //
+
+    // -- Remove a Customer (by id) -- //
     {
       method: 'DELETE',
       path: '/v1/customer/deleteProfile/{id}',
       handler: async (request, reply) => {
         try {
-          let id = request.params.id
-          let result = await firebase.firestore()
+          let id = request.params.id;
+          let result = await firebase
+            .firestore()
             .collection('users')
-            .doc(id).delete().then(() => {
+            .doc(id)
+            .delete()
+            .then(() => {
               return 'deleted';
-            })
-          //TODO DELETE Neo4j 
-          return reply.response({ 'result': result });
-        }
-        catch (error) {
+            });
+          //TODO DELETE Neo4j
+          return reply.response({ result: result });
+        } catch (error) {
           return reply.response(error);
         }
       }
     },
-    // ** ------------------- [CR(ud) Order] ------------------- ** \\ 
-    // ** -- create new Order -- ** //
+
+    //  -- New Order --  //
     {
       method: 'POST',
       path: '/v1/customer/addOrder',
@@ -126,42 +161,48 @@ function CustomersRoutes(server, firebase) {
             totalAmount
           } = request.payload;
           let date = new Date().toLocaleString();
-          let result = await firebase.firestore().collection('orders').add({
-            'customer': customer,
-            'products': products,
-            'supermarket': supermarketId,
-            'amount': totalAmount,
-            'date': date,
-            'state': 'Registered'
-          }).then(ref => {
-            console.log('Added document with ID: ', ref.id);
-            return ref.id
-          });
-          return reply.response({ 'result': result });
-        }
-        catch (error) {
+          let result = await firebase
+            .firestore()
+            .collection('orders')
+            .add({
+              customer: customer,
+              products: products,
+              supermarket: supermarketId,
+              amount: totalAmount,
+              date: date,
+              state: 'Registered'
+            })
+            .then(ref => {
+              console.log('Added document with ID: ', ref.id);
+              return ref.id;
+            });
+          return reply.response({ result: result });
+        } catch (error) {
           return reply.response(error);
         }
       }
     },
-    // ** -- read orders by customer -- ** //
+
+    // -- Get Orders (by customer) --  //
     {
       method: 'GET',
       path: '/v1/customer/viewOrder/{customer}',
       handler: async (request, reply) => {
         try {
-          let customer = request.params.customer
+          let customer = request.params.customer;
           let orders = [];
-          await firebase.firestore()
+          await firebase
+            .firestore()
             .collection('orders')
-            .where('customer', '==', customer).get()
+            .where('customer', '==', customer)
+            .get()
             .then(snapshot => {
               if (snapshot.empty) {
                 console.log('No matching documents.');
                 return 'empty';
               }
               snapshot.forEach(doc => {
-                orders.push(doc.data())
+                orders.push(doc.data());
               });
             })
             .catch(err => {
@@ -169,62 +210,67 @@ function CustomersRoutes(server, firebase) {
             });
 
           return reply.response(orders);
-        }
-        catch (error) {
+        } catch (error) {
           return reply.response(error);
         }
       }
     },
-    //-------------------------------------------------//
-    //---------------------Extras----------------------//
-    //-------------------------------------------------//
-    // ** -- all users login -- ** //
+
+    // -- Login (all users) --  //
     {
       method: 'POST',
       path: '/v1/users/login',
       handler: async (request, reply) => {
         try {
           const { email, password } = request.payload;
-          let id = await firebase.auth().signInWithEmailAndPassword(email, password)
+          let id = await firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
             .then(response => {
-              return response.user.uid
+              return response.user.uid;
             })
             .catch(error => {
               return '';
             });
-          let role = await firebase.firestore().collection('users').doc(id).get()
-            .then((doc) => {
+          let role = await firebase
+            .firestore()
+            .collection('users')
+            .doc(id)
+            .get()
+            .then(doc => {
               if (doc.exists) {
-                return doc.data().role
+                return doc.data().role;
               } else {
-                return ''
+                return '';
               }
-            })
-          return reply.response({ 'id': id, 'role': role });
-        }
-        catch (error) {
+            });
+          return reply.response({ id: id, role: role });
+        } catch (error) {
           return reply.response({});
         }
       }
     },
-    // ** -- find products by supermarket -- ** //
+
+    // -- Get Products (by supermarket) -- //
     {
       method: 'GET',
       path: '/v1/customer/findProductBySupermarket/{id}',
       handler: async (request, reply) => {
         try {
-          let id = request.params.id
+          let id = request.params.id;
           let products = [];
-          await firebase.firestore()
+          await firebase
+            .firestore()
             .collection('products')
-            .where('supermarket', '==', id).get()
+            .where('supermarket', '==', id)
+            .get()
             .then(snapshot => {
               if (snapshot.empty) {
                 console.log('No matching documents.');
                 return 'empty';
               }
               snapshot.forEach(doc => {
-                products.push(doc.data())
+                products.push(doc.data());
               });
             })
             .catch(err => {
@@ -232,14 +278,12 @@ function CustomersRoutes(server, firebase) {
             });
 
           return reply.response(products);
-        }
-        catch (error) {
+        } catch (error) {
           return reply.response(error);
         }
       }
-    },
+    }
   ]);
 }
-
 
 export default CustomersRoutes;
