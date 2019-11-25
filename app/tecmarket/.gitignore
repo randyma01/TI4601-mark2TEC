@@ -1,6 +1,7 @@
 # authors: gustavo, luis, pablo, randy #
-# proj: TECMarket #
-# module: restful-api #
+# proj: vueltaTEC #
+# module: web-app #
+
 
 # dependencies #
 /node_modules
@@ -26,5 +27,3 @@ yarn-debug.log*
 yarn-error.log*
 
 /README.md
-
-# ------------------------- #
