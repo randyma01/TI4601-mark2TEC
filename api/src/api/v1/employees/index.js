@@ -294,6 +294,62 @@ function EmployeesRoutes(server, firebase) {
           return reply.response(error);
         }
       }
+    },
+
+    // -- Get all orders --  //
+    {
+      method: 'GET',
+      path: '/v1/employee/findAllOrders',
+      handler: async (request, reply) => {
+        try {
+          let supermarkets = [];
+          await firebase
+            .firestore()
+            .collection('orders')
+            .get()
+            .then(snapshot => {
+              snapshot.forEach(doc => {
+                let data = doc.data();
+                data['id'] = doc.id;
+                supermarkets.push(data);
+              });
+            });
+          return reply.response(supermarkets);
+        } catch (error) {
+          return reply.response(error);
+        }
+      }
+    },
+
+    // -- Get all Orders -- //
+    {
+      method: 'GET',
+      path: '/v1/employee/findOneOrder/{order}',
+      handler: async (request, reply) => {
+        try {
+          let order = request.params.order;
+          let result = await firebase
+            .firestore()
+            .collection('orders')
+            .doc(order)
+            .get()
+            .then(doc => {
+              if (!doc.exists) {
+                console.log('No such document!');
+              } else {
+                console.log('Document data:', doc.data());
+                return doc.data();
+              }
+            })
+            .catch(err => {
+              console.log('Error getting document', err);
+            });
+
+          return reply.response(result);
+        } catch (error) {
+          return reply.response(error);
+        }
+      }
     }
   ]);
 }
