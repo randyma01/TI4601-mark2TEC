@@ -189,7 +189,9 @@
       "detailOrder": "Detail Order",
       "removeProduct": "Remove",
       "totalAmount": "Total amount: $",
-      "viewOrder": "See my Orders"
+      "viewOrder": "See my Orders",
+      "viewAllOrder": "View All Orders",
+      "orderFind": "Order number to modify"
     },
     "data": {
       "order": "N.º Order",
@@ -209,6 +211,12 @@
       "addConfirm": "Confirm",
       "addCancel": "Cancel",
       "find": "Search"
+    },
+    "state": {
+      "registered": "Registered",
+      "assigned": " Assigned",
+      "onRoute": "on Route",
+      "delivered": "Delivered"
     },
     "messages": {
       "confirmAdd": "Confirm to buy products.",

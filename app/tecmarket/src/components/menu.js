@@ -13,14 +13,11 @@ import HomeComponent from './home';
 import LanguageSelector from '../translation/languageSelector';
 import Login from './session/login';
 //administrator access
-import AirlineComponent from '../components/Administrator/Airline';
-import AirportComponent from '../components/Administrator/Airport';
-import EmployeeComponent from '../components/Administrator/Employee';
-import FlightComponent from '../components/Administrator/Flight';
 import ReportComponent from '../components/Administrator/Report';
 //operatos||technician access
 import ProductsComponentEmployee from '../components/Employee/Product';
 import SupermarketsComponentEmployee from '../components/Employee/Supermarket';
+import OrderComponentEmployee from '../components/Employee/Order';
 //Customer access
 import AccountComponentCustomer from '../components/Customer/Account';
 import OrderComponentCustomer from '../components/Customer/Order';
@@ -41,10 +38,6 @@ class Menu extends React.Component {
     if (this.state.dataUser.role === 'administrator') {
       return (
         <Nav className="mr-auto">
-          <Nav.Link as="span">{<Link to="/airports" style={{ color: '#FFF' }}>Aeropuertos</Link>}</Nav.Link>
-          <Nav.Link as="span">{<Link to="/airlines" style={{ color: '#FFF' }}>Aerolineas</Link>}</Nav.Link>
-          <Nav.Link as="span">{<Link to="/flights" style={{ color: '#FFF' }}>Vuelos</Link>}</Nav.Link>
-          <Nav.Link as="span">{<Link to="/employees" style={{ color: '#FFF' }}>Empleados</Link>}</Nav.Link>
           <Nav.Link as="span">{<Link to="/reports" style={{ color: '#FFF' }}>Reportes</Link>}</Nav.Link>
         </Nav>
       )
@@ -54,6 +47,7 @@ class Menu extends React.Component {
         <Nav className="mr-auto">
           <Nav.Link as="span">{<Link to="/employee/supermarkets" style={{ color: '#FFF' }}> {t('menu.labels.employee.supermarkets')} </Link>}</Nav.Link>
           <Nav.Link as="span">{<Link to="/employee/products" style={{ color: '#FFF' }}> {t('menu.labels.employee.products')} </Link>}</Nav.Link>
+          <Nav.Link as="span">{<Link to="/employee/orders" style={{ color: '#FFF' }}> {t('menu.labels.employee.orders')} </Link>}</Nav.Link>
         </Nav >
       )
     }
@@ -108,13 +102,10 @@ class Menu extends React.Component {
             <main>
               <Switch>
                 <Route path='/' exact component={HomeComponent} />
-                <Route path='/airports' exact component={() => <AirportComponent />} />
-                <Route path='/airlines' exact component={() => <AirlineComponent />} />
-                <Route path='/employees' exact component={() => <EmployeeComponent />} />
-                <Route path='/flights' exact component={() => <FlightComponent />} />
                 <Route path='/reports' exact component={() => <ReportComponent />} />
                 <Route path='/employee/products' exact component={() => <I18nextProvider i18n={i18n}> <ProductsComponentEmployee /> </I18nextProvider>} />
                 <Route path='/employee/supermarkets' exact component={() => <I18nextProvider i18n={i18n}> <SupermarketsComponentEmployee /> </I18nextProvider>} />
+                <Route path='/employee/orders' exact component={() => <I18nextProvider i18n={i18n}> <OrderComponentEmployee /> </I18nextProvider>} />
                 <Route path='/customer/orders' exact component={() => <I18nextProvider i18n={i18n}> <OrderComponentCustomer dataUser={this.state.dataUser} /> </I18nextProvider>} />
                 <Route path='/customer/supermarkets' exact component={() => <I18nextProvider i18n={i18n}> <SupermarketComponentCustomer dataUser={this.state.dataUser} /> </I18nextProvider>} />
                 <Route path='/customer/products' exact component={() => <I18nextProvider i18n={i18n}> <ProductComponentCustomer dataUser={this.state.dataUser} /> </I18nextProvider>} />

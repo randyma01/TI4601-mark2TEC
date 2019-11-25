@@ -10,21 +10,21 @@ import Menu from './components/menu';
 class App extends React.Component {
   render() {
     return (
+      /*
       <I18nextProvider i18n={i18n}>
         <LogInComponent />
       </I18nextProvider>
-
-
+      */
 
       /** {TEST} DELETE  */
-      /*
+
       <I18nextProvider i18n={i18n}>
         <Menu dataUser={{
           "id": "EDp9MDl3SveELBIeviYk4zXib0l1",
-          "role": "customer"
+          "role": "employee"
         }} />
       </I18nextProvider>
-      */
+
     );
   }
 }

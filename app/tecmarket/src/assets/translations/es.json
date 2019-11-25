@@ -189,7 +189,9 @@
       "detailOrder": "Detalle de Orden",
       "removeProduct": "Remover",
       "totalAmount": "Monto Total: $",
-      "viewOrder": "Ver mis Ordenes"
+      "viewOrder": "Ver mis Ordenes",
+      "viewAllOrder": "Ver Todas las Ordenes",
+      "orderFind": "Numero de orden a actualizar"
     },
     "data": {
       "order": "N.º Orden",
@@ -209,6 +211,12 @@
       "addConfirm": "Confirmar",
       "addCancel": "Cancelar",
       "find": "Buscar"
+    },
+    "state": {
+      "registered": "Registrado",
+      "assigned": " Asignado",
+      "onRoute": "En ruta",
+      "delivered": "Entregado"
     },
     "messages": {
       "confirmAdd": "Confirmar para comprar productos.",
